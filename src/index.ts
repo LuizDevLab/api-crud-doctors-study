@@ -35,3 +35,16 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/docs", (req: Request, res: Response) => {
   res.send(medicos);
 });
+
+app.get("/docs/:id", (req: Request, res: Response) => {
+  const userId: number = Number(req.params.id);
+
+  const usuariosEncontrados: Medico | undefined = medicos.find(
+    (user) => user.id == userId
+  );
+  if (!usuariosEncontrados) {
+    return res.status(404).json("Médico não encontrado!");
+  }
+
+  return res.json(usuariosEncontrados)
+});
