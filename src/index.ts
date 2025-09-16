@@ -48,3 +48,13 @@ app.get("/docs/:id", (req: Request, res: Response) => {
 
   return res.json(usuariosEncontrados)
 });
+
+app.post("/docs", (req: Request, res: Response) => {
+  const { nome, crm, especialidade } = req.body;
+
+  const maxId: number = medicos.reduce((max, doc) => (doc.id > max ? doc.id : max), 0);
+  const novoMedico: Medico = { id: maxId + 1, nome, crm, especialidade }
+
+  medicos.push(novoMedico);
+  return res.status(201).json(medicos)
+})
