@@ -36,7 +36,7 @@ app.get("/docs", (req: Request, res: Response) => {
   res.send(medicos);
 });
 
-app.get("/docs/:id", (req: Request, res: Response) => {
+app.get("/docs/id/:id", (req: Request, res: Response) => {
   const userId: number = Number(req.params.id);
 
   const usuariosEncontrados: Medico | undefined = medicos.find(
@@ -48,6 +48,17 @@ app.get("/docs/:id", (req: Request, res: Response) => {
 
   return res.json(usuariosEncontrados)
 });
+
+app.get("/docs/especialidade/:especialidade", (req: Request, res: Response) => {
+  const areaMedica: string = String(req.params.especialidade)
+  const encontrado: Medico | undefined = medicos.find((user) => user.especialidade == areaMedica)
+
+  if (!encontrado) {
+    return res.status(404).json("área médica não encontrado");
+  }
+
+  return res.json(encontrado)
+})
 
 app.post("/docs", (req: Request, res: Response) => {
   const { nome, crm, especialidade } = req.body;
